@@ -991,8 +991,11 @@
       <div class="header-brand">
         <img
           class="header-logo"
-          src="logo-indomaret.png"
+          src="./logo-indomaret.png"
           alt="Logo Indomaret"
+          loading="eager"
+          decoding="async"
+          onerror="this.onerror=null; this.src='./logo-indomaret.PNG';"
         />
         <div class="header-title">
           <h2>SUPPLIER INFORMATION DASHBOARD</h2>
@@ -1681,6 +1684,33 @@ async function loadData() {
       }
     }
 
+    async function resolveAuthAccount(user) {
+      const { data: account, error } = await supabaseClient
+        .from("supplier_accounts")
+        .select("supplier_code")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      const { data: adminAccount, error: adminError } = await supabaseClient
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (adminError) throw adminError;
+
+      if (!account && !adminAccount) {
+        throw new Error("Akun belum diberi akses supplier atau admin.");
+      }
+
+      currentUser = account
+        ? normalizeSupplierCode(account.supplier_code)
+        : user.email;
+      currentRole = account ? "supplier" : "admin";
+    }
+
     async function login() {
       const email = document.getElementById("username").value.trim();
       const password = document.getElementById("password").value;
@@ -1705,11 +1735,7 @@ async function loadData() {
           throw new Error("Login Supabase tidak menghasilkan user.");
         }
 
-        currentUser = authData.user.email || email;
-        // Saat ini hanya akun Admin yang digunakan untuk Dashboard.
-        // Jangan membuat akun Supabase lain sampai sistem role supplier
-        // berbasis RLS/metadata disiapkan.
-        currentRole = "admin";
+        await resolveAuthAccount(authData.user);
 
         await openApplication();
         await loadData();
@@ -1730,7 +1756,8 @@ async function loadData() {
       document.getElementById("loggedUser").textContent =
         currentUser + " (" + currentRole.toUpperCase() + ")";
 
-      document.getElementById("adminPanel").style.display = "block";
+      document.getElementById("adminPanel").style.display =
+        currentRole === "admin" ? "block" : "none";
 
       const supplierFilter = document.getElementById("supplierFilter");
       supplierFilter.style.display = "";
@@ -4105,8 +4132,7 @@ async function loadData() {
         if (sessionError) throw sessionError;
 
         if (sessionData && sessionData.session && sessionData.session.user) {
-          currentUser = sessionData.session.user.email || null;
-          currentRole = "admin";
+          await resolveAuthAccount(sessionData.session.user);
           await openApplication();
           await loadData();
           renderDashboard();
