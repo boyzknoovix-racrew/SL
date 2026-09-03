@@ -687,24 +687,99 @@
 
     .sales-filter-grid {
       display: grid;
-      grid-template-columns: repeat(5, minmax(140px, 1fr));
+      grid-template-columns: repeat(5, minmax(160px, 1fr));
       gap: 12px;
-      align-items: end;
+      align-items: start;
     }
 
-    .sales-filter-grid select {
+    .sales-filter-grid .multi-filter {
       width: 100%;
-      min-height: 42px;
-      padding: 11px 13px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      min-height: 180px;
       background: #fff;
-      outline: none;
+      border: 1px solid #e7b39f;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.2);
+    }
+
+    .sales-filter-grid .multi-filter-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px 12px;
+      border: 0;
+      background: #f7d7c8;
+      color: #4b2e24;
+      font-weight: bold;
+      text-align: left;
+      font-size: 12px;
+      border-bottom: 1px solid #e7b39f;
+      cursor: pointer;
+    }
+
+    .sales-filter-grid .multi-filter-button::after {
+      content: "☰";
+      font-size: 12px;
+      opacity: .8;
+    }
+
+    .sales-filter-grid .multi-filter-options {
+      position: static !important;
+      display: block !important;
+      max-height: 220px;
+      overflow-y: auto;
+      background: #fff;
+      border: 0;
+      box-shadow: none;
+      padding: 8px;
+      border-radius: 0;
+    }
+
+    .sales-filter-grid .multi-filter-option {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: #1f2937;
+      background: #fdf2ee;
+      margin-bottom: 4px;
+      cursor: pointer;
+    }
+
+    .sales-filter-grid .multi-filter-option:hover {
+      background: #f8e1d5;
+    }
+
+    .sales-filter-grid .multi-filter-option input {
+      width: 14px;
+      height: 14px;
+      margin: 0;
+      accent-color: #d97706;
     }
 
     .sales-filter-grid select:focus {
       border-color: #0891b2;
       box-shadow: 0 0 0 3px rgba(8,145,178,.1);
+    }
+
+    .sales-filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sales-filter-field label {
+      font-size: 12px;
+      font-weight: bold;
+      color: #475569;
+    }
+
+    .sales-filter-field select {
+      width: 100%;
+      min-height: 140px;
     }
 
     .sales-cards {
@@ -716,19 +791,30 @@
 
     .sales-card {
       background: #fff;
-      border-left: 5px solid #0891b2;
-      border-radius: 12px;
-      padding: 18px;
+      border-radius: 14px;
+      padding: 16px 16px 12px;
       box-shadow: 0 3px 12px rgba(0,0,0,.06);
+      border-top: 4px solid #0891b2;
+      transition: box-shadow .2s ease, transform .2s ease;
     }
 
-    .sales-card:nth-child(2) { border-left-color: #f97316; }
-    .sales-card:nth-child(3) { border-left-color: #7c3aed; }
+    .sales-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,.1);
+      transform: translateY(-2px);
+    }
+
+    .sales-card:nth-child(2) { border-top-color: #f97316; }
+    .sales-card:nth-child(3) { border-top-color: #7c3aed; }
 
     .sales-card-title {
-      color: #64748b;
+      color: #0f172a;
       font-size: 12px;
-      margin-bottom: 8px;
+      font-weight: bold;
+      letter-spacing: .3px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed #e2e8f0;
     }
 
     .sales-card-value {
@@ -743,7 +829,38 @@
     }
 
     .sales-table {
-      min-width: 900px;
+      width: 100%;
+      min-width: 0;
+      table-layout: fixed;
+      border-collapse: collapse;
+    }
+
+    .sales-table th,
+    .sales-table td {
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: middle;
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .sales-table th:nth-child(1),
+    .sales-table td:nth-child(1) {
+      width: 70px;
+      text-align: center;
+    }
+
+    .sales-table th:nth-child(2),
+    .sales-table td:nth-child(2) {
+      width: auto;
+    }
+
+    .sales-table th:nth-child(3),
+    .sales-table td:nth-child(3) {
+      width: 180px;
+      text-align: right;
+      white-space: nowrap;
     }
 
     .sales-chart-grid {
@@ -754,23 +871,30 @@
 
     .sales-chart-box {
       min-width: 0;
-      padding: 14px;
-      border: 1px solid #dbe3ec;
-      border-radius: 8px;
+      padding: 0;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
       background: #fff;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,.05);
     }
 
     .sales-chart-box h4 {
-      margin: 0 0 8px;
-      padding: 7px 10px;
-      background: #0f2f6f;
+      margin: 0;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, #0f2f6f, #1e40af);
       color: #fff;
-      font-size: 12px;
-      text-align: center;
+      font-size: 12.5px;
+      font-weight: bold;
+      letter-spacing: .3px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .sales-chart-box .chart-container {
       height: 260px;
+      padding: 10px 8px 6px;
     }
 
     .sales-top-grid {
@@ -783,6 +907,40 @@
       padding: 30px;
       color: #64748b;
       text-align: center;
+    }
+
+    .sales-table tbody tr.rank-1 td { background: #fef9c3; }
+    .sales-table tbody tr.rank-2 td { background: #f1f5f9; }
+    .sales-table tbody tr.rank-3 td { background: #ffedd5; }
+
+    .sales-table .rank-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #0f172a;
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .sales-table tbody tr.rank-1 .rank-badge { background: #a16207; }
+    .sales-table tbody tr.rank-2 .rank-badge { background: #64748b; }
+    .sales-table tbody tr.rank-3 .rank-badge { background: #9a3412; }
+
+    .chart-header #salesDataInfo {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 11.5px;
+      color: #0f172a;
+      font-weight: bold;
+      white-space: normal;
+      text-align: right;
+      max-width: 460px;
     }
 
     .table-header {
@@ -800,6 +958,15 @@
       max-height: 600px;
       border: 1px solid #e2e8f0;
       border-radius: 9px;
+    }
+
+    .sales-rank-table-wrapper {
+      overflow: visible;
+      max-height: none;
+    }
+
+    .sales-top-grid .table-panel {
+      min-width: 0;
     }
 
     table {
@@ -1081,9 +1248,9 @@
           </div>
 
           <div class="filter-field">
-            <label for="dcNameFilter">All DC Name</label>
+            <label for="dcNameFilter">All DC Code</label>
             <select id="dcNameFilter" onchange="applyFilters()">
-              <option value="">All DC Name</option>
+              <option value="">All DC Code</option>
             </select>
           </div>
 
@@ -1304,6 +1471,7 @@
                 <tr>
                   <th>PLU</th>
                   <th>PLU DESC</th>
+                  <th>DC CODE</th>
                   <th id="emptyStockQtyHeader">QTY STOCK</th>
                   <th>DSI STOCK</th>
                   <th>LAST DELIVERY</th>
@@ -1323,33 +1491,60 @@
             <h3>Filter Dashboard Sales</h3>
           </div>
           <div class="sales-filter-grid">
-            <select id="salesDCFilter" onchange="renderSalesDashboard()">
-              <option value="">All DC Name</option>
-            </select>
-            <select id="salesYearFilter" onchange="renderSalesDashboard()">
-              <option value="">All Tahun</option>
-            </select>
-            <select id="salesMonthFilter" onchange="renderSalesDashboard()">
-              <option value="">All Bulan</option>
-            </select>
-            <select id="salesDivisionFilter" onchange="renderSalesDashboard()">
-              <option value="">All Divisi</option>
-            </select>
-            <select id="salesCategoryFilter" onchange="renderSalesDashboard()">
-              <option value="">All Kategori</option>
-            </select>
-            <select id="salesPrincipalFilter" onchange="renderSalesDashboard()">
-              <option value="">All Principal</option>
-            </select>
-            <select id="salesDepartmentFilter" onchange="renderSalesDashboard()">
-              <option value="">All Departemen</option>
-            </select>
-            <select id="salesBrandFilter" onchange="renderSalesDashboard()">
-              <option value="">All Brand</option>
-            </select>
-            <select id="salesProductFilter" onchange="renderSalesDashboard()">
-              <option value="">All Deskripsi Produk</option>
-            </select>
+            <div class="sales-filter-field">
+              <label for="salesDCFilter">DC Name</label>
+              <select id="salesDCFilter" multiple size="5" onchange="handleSalesFilterChange(this)">
+                <option value="__ALL__" selected>All DC Name</option>
+              </select>
+            </div>
+            <div class="sales-filter-field">
+              <label for="salesYearFilter">Tahun</label>
+              <select id="salesYearFilter" multiple size="5" onchange="handleSalesFilterChange(this)">
+                <option value="__ALL__" selected>All Tahun</option>
+              </select>
+            </div>
+            <div class="sales-filter-field">
+              <label for="salesMonthFilter">Bulan</label>
+              <select id="salesMonthFilter" multiple size="5" onchange="handleSalesFilterChange(this)">
+                <option value="__ALL__" selected>All Bulan</option>
+              </select>
+            </div>
+            <div class="sales-filter-field">
+              <label for="salesDivisionFilter">Divisi</label>
+              <select id="salesDivisionFilter" multiple size="5" onchange="handleSalesFilterChange(this)">
+                <option value="__ALL__" selected>All Divisi</option>
+              </select>
+            </div>
+            <div class="sales-filter-field">
+              <label for="salesCategoryFilter">Kategori</label>
+              <select id="salesCategoryFilter" multiple size="5" onchange="handleSalesFilterChange(this)">
+                <option value="__ALL__" selected>All Kategori</option>
+              </select>
+            </div>
+            <div class="sales-filter-field">
+              <label for="salesPrincipalFilter">Principal</label>
+              <select id="salesPrincipalFilter" multiple size="5" onchange="handleSalesFilterChange(this)">
+                <option value="__ALL__" selected>All Principal</option>
+              </select>
+            </div>
+            <div class="sales-filter-field">
+              <label for="salesDepartmentFilter">Departemen</label>
+              <select id="salesDepartmentFilter" multiple size="5" onchange="handleSalesFilterChange(this)">
+                <option value="__ALL__" selected>All Departemen</option>
+              </select>
+            </div>
+            <div class="sales-filter-field">
+              <label for="salesBrandFilter">Brand</label>
+              <select id="salesBrandFilter" multiple size="5" onchange="handleSalesFilterChange(this)">
+                <option value="__ALL__" selected>All Brand</option>
+              </select>
+            </div>
+            <div class="sales-filter-field">
+              <label for="salesProductFilter">Deskripsi Produk</label>
+              <select id="salesProductFilter" multiple size="5" onchange="handleSalesFilterChange(this)">
+                <option value="__ALL__" selected>All Deskripsi Produk</option>
+              </select>
+            </div>
           </div>
         </div>
 
@@ -1375,19 +1570,35 @@
         <div class="sales-top-grid">
           <div class="table-panel">
             <div class="table-header"><h3>Top 10 Principal by Sales Rp</h3></div>
-            <div class="table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>NAMA PRINCIPAL</th><th>SALES RP</th></tr></thead><tbody id="salesPrincipalTable"></tbody></table></div>
+            <div class="table-wrapper sales-rank-table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>NAMA PRINCIPAL</th><th>SALES RP</th></tr></thead><tbody id="salesPrincipalTable"></tbody></table></div>
           </div>
           <div class="table-panel">
             <div class="table-header"><h3>10 Principal Terbawah by Sales Rp</h3></div>
-            <div class="table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>NAMA PRINCIPAL</th><th>SALES RP</th></tr></thead><tbody id="bottomSalesPrincipalTable"></tbody></table></div>
+            <div class="table-wrapper sales-rank-table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>NAMA PRINCIPAL</th><th>SALES RP</th></tr></thead><tbody id="bottomSalesPrincipalTable"></tbody></table></div>
           </div>
           <div class="table-panel">
             <div class="table-header"><h3>Top 10 Produk by Sales Rp</h3></div>
-            <div class="table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>PRODUK</th><th>SALES RP</th></tr></thead><tbody id="salesProductTable"></tbody></table></div>
+            <div class="table-wrapper sales-rank-table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>PRODUK</th><th>SALES RP</th></tr></thead><tbody id="salesProductTable"></tbody></table></div>
           </div>
           <div class="table-panel">
             <div class="table-header"><h3>10 Produk Terbawah by Sales Rp</h3></div>
-            <div class="table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>PRODUK</th><th>SALES RP</th></tr></thead><tbody id="bottomSalesProductTable"></tbody></table></div>
+            <div class="table-wrapper sales-rank-table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>PRODUK</th><th>SALES RP</th></tr></thead><tbody id="bottomSalesProductTable"></tbody></table></div>
+          </div>
+          <div class="table-panel">
+            <div class="table-header"><h3>Top 10 Principal by Margin Rp</h3></div>
+            <div class="table-wrapper sales-rank-table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>NAMA PRINCIPAL</th><th>MARGIN RP</th></tr></thead><tbody id="marginPrincipalTable"></tbody></table></div>
+          </div>
+          <div class="table-panel">
+            <div class="table-header"><h3>Top 10 Produk by Margin Rp</h3></div>
+            <div class="table-wrapper sales-rank-table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>PRODUK</th><th>MARGIN RP</th></tr></thead><tbody id="marginProductTable"></tbody></table></div>
+          </div>
+          <div class="table-panel">
+            <div class="table-header"><h3>Top 10 Principal Minus Margin</h3></div>
+            <div class="table-wrapper sales-rank-table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>NAMA PRINCIPAL</th><th>MINUS MARGIN RP</th></tr></thead><tbody id="minusMarginPrincipalTable"></tbody></table></div>
+          </div>
+          <div class="table-panel">
+            <div class="table-header"><h3>Top 10 Produk Minus Margin</h3></div>
+            <div class="table-wrapper sales-rank-table-wrapper"><table class="sales-table"><thead><tr><th>RANK</th><th>PRODUK</th><th>MINUS MARGIN RP</th></tr></thead><tbody id="minusMarginProductTable"></tbody></table></div>
           </div>
         </div>
       </div>
@@ -1558,7 +1769,77 @@
       });
     }
 
-async function loadData() {
+async function syncSupplierDataToLocal() {
+      await deleteAllRecords();
+      for (let i = 0; i < data.length; i += 2000) {
+        await saveManyRecords(data.slice(i, i + 2000));
+      }
+      data = await getAllData();
+    }
+
+    async function syncSalesDataToLocal() {
+      await deleteAllSalesRecords();
+      for (let i = 0; i < salesData.length; i += 2000) {
+        await saveManySalesRecords(salesData.slice(i, i + 2000));
+      }
+      salesData = await getAllSalesData();
+    }
+
+// ============================================================
+    // Helper anti-gagal untuk memuat data Supabase
+    // ============================================================
+    function isRetryableSupabaseError(err) {
+      if (!err) return false;
+      const status = Number(err.status) || 0;
+      // Rate-limit / 5xx / gagal jaringan bisa dipulihkan dengan retry
+      if (status === 429) return true;
+      if (status >= 500 && status <= 599) return true;
+      if (err.code === "429" || err.code === "500" || err.code === "503") return true;
+      const msg = String(err.message || "").toLowerCase();
+      return (
+        /failed to fetch/i.test(msg) ||
+        /network error/i.test(msg) ||
+        /network request failed/i.test(msg) ||
+        /fetch has been blocked/i.test(msg) ||
+        /timed? ?out/i.test(msg) ||
+        /too many requests/i.test(msg)
+      );
+    }
+
+    async function fetchTableBatchWithRetry(tableName, from, batchSize, logLabel) {
+      let lastError = null;
+
+      for (let attempt = 1; attempt <= 4; attempt++) {
+        try {
+          const { data: batch, error } = await supabaseClient
+            .from(tableName)
+            .select("*")
+            .range(from, from + batchSize - 1);
+
+          if (!error) return batch || [];
+
+          lastError = error;
+          if (!isRetryableSupabaseError(error) || attempt === 4) {
+            const err = new Error(error.message || ("Query " + tableName + " gagal"));
+            err.code = error.code;
+            err.status = error.status;
+            throw err;
+          }
+        } catch (e) {
+          lastError = e;
+          if (!isRetryableSupabaseError(e) || attempt === 4) throw e;
+        }
+
+        console.warn(
+          "⚠️ " + logLabel + " (baris " + (from + 1) + "-" + (from + batchSize) +
+          ") gagal, mencoba ulang " + attempt + "/3 dalam " + (700 * attempt) + " ms..."
+        );
+        await sleep(700 * attempt);
+      }
+
+      throw lastError;
+    }
+    async function loadData() {
   try {
     console.log("Mengambil seluruh data dari Supabase secara bertahap...");
 
@@ -1568,16 +1849,12 @@ async function loadData() {
     let hasMore = true;
 
     while (hasMore) {
-      console.log(`Mengambil data ${from + 1} - ${from + batchSize}...`);
-
-      const { data: batch, error } = await supabaseClient
-        .from("data_supplier")
-        .select("*")
-        .range(from, from + batchSize - 1);
-
-      if (error) {
-        throw error;
-      }
+      const batch = await fetchTableBatchWithRetry(
+        "data_supplier",
+        from,
+        batchSize,
+        "data_supplier"
+      );
 
       if (batch && batch.length > 0) {
         allData.push(...batch);
@@ -1590,15 +1867,22 @@ async function loadData() {
       }
     }
 
-    data = allData;
+data = allData;
+await syncSupplierDataToLocal();
 
-    console.log(
-      "✅ Seluruh data Supabase berhasil dimuat:",
+console.log(
+      "✅ Seluruh data data_supplier berhasil dimuat:",
       data.length,
       "baris"
     );
 
     await loadSalesData();
+
+    console.log(
+      "✅ Seluruh data Supabase berhasil dimuat:",
+      data.length + salesData.length,
+      "baris (data_supplier: " + data.length + " + data_sales: " + salesData.length + ")"
+    );
 
     rebuildLatestDeliveryIndex();
 
@@ -1622,6 +1906,8 @@ async function loadData() {
     data = [];
     salesData = [];
     latestDeliveryByPLU = new Map();
+    try { await deleteAllRecords(); } catch (e2) {}
+    try { await deleteAllSalesRecords(); } catch (e2) {}
 
     const isPermissionDenied = e && (e.code === "42501" || /permission denied for table/i.test(e.message || ""));
     const isUnauthorized = e && (e.status === 401 || e.code === "401" || /invalid api key/i.test(e.message || ""));
@@ -1637,26 +1923,30 @@ async function loadData() {
 }
 
     async function loadSalesData() {
+      const allSales = [];
       try {
         console.log("Mengambil data Sales dari Supabase...");
 
-        const allSales = [];
         const batchSize = 1000;
         let from = 0;
         let hasMore = true;
 
         while (hasMore) {
-          console.log(`Mengambil Sales ${from + 1} - ${from + batchSize}...`);
-
-          const { data: batch, error } = await supabaseClient
-            .from("data_sales")
-            .select("*")
-            .range(from, from + batchSize - 1);
-
-          if (error) throw error;
+          const batch = await fetchTableBatchWithRetry(
+            "data_sales",
+            from,
+            batchSize,
+            "data_sales"
+          );
 
           if (batch && batch.length) {
-            allSales.push(...batch.map(normalizeSalesDatabaseRow));
+            batch.forEach(function(row) {
+              try {
+                allSales.push(normalizeSalesDatabaseRow(row));
+              } catch (normErr) {
+                console.warn("⚠️ Melewatkan baris sales yang tidak bisa diproses:", normErr);
+              }
+            });
           }
 
           if (!batch || batch.length < batchSize) {
@@ -1664,22 +1954,30 @@ async function loadData() {
           } else {
             from += batchSize;
           }
+
+          // Jeda kecil antar batch supaya tidak kena rate-limit Supabase (HTTP 429).
+          await sleep(50);
         }
 
         salesData = allSales;
+        await syncSalesDataToLocal();
         console.log("✅ Data Sales berhasil dimuat:", salesData.length, "baris");
 
         if (salesData.length) {
           console.log("Contoh Sales:", salesData[0]);
         }
       } catch (e) {
-        console.error("❌ Gagal mengambil data Sales:", e);
-        salesData = [];
+        console.error("❌ Gagal memuat sebagian data Sales:", e);
+
+        // Jangan hapus seluruhnya; pertahankan data yang sudah berhasil diambil.
+        salesData = allSales;
+        try { await syncSalesDataToLocal(); } catch (e2) {}
+
         document.getElementById("salesDataInfo").textContent = e && (e.code === "42501" || /permission denied for table/i.test(e.message || ""))
           ? "Izin SELECT tabel data_sales belum diberikan"
           : e && (e.status === 401 || e.code === "401" || /invalid api key/i.test(e.message || ""))
             ? "API key Supabase tidak valid"
-          : "Gagal memuat data sales";
+            : "Gagal memuat sebagian data sales. Menampilkan " + allSales.length + " baris yang berhasil dimuat.";
         console.warn("Pastikan tabel data_sales memiliki kolom CSV yang sesuai dan policy SELECT mengizinkan akses.");
       }
     }
@@ -1706,7 +2004,7 @@ async function loadData() {
       }
 
       currentUser = account
-        ? normalizeSupplierCode(account.supplier_code)
+        ? normalizeSupplierCode(account.SUPPLIER_CODE)
         : user.email;
       currentRole = account ? "supplier" : "admin";
     }
@@ -1804,8 +2102,8 @@ async function loadData() {
       }
 
       if (excludedFilter !== "dcNameFilter") {
-        const dcName = document.getElementById("dcNameFilter").value;
-        if (dcName && normalizeSearchText(item.DC_NAME) !== dcName) return false;
+        const dcCode = normalizeSupplierCode(document.getElementById("dcNameFilter").value);
+        if (dcCode && normalizeSupplierCode(item.DC_CODE) !== dcCode) return false;
       }
 
       const date = getServiceLevelDate(item);
@@ -1844,7 +2142,7 @@ async function loadData() {
       if (excludedFilter !== "stockConditionFilter") {
         const stockCondition = document.getElementById("stockConditionFilter").value;
         if (stockCondition) {
-          const isEmpty = parseNumber(item.STOCK_QTY) === 0;
+          const isEmpty = isEmptyStock(item);
           if (stockCondition !== (isEmpty ? "kosong" : "aman")) return false;
         }
       }
@@ -1891,15 +2189,22 @@ async function loadData() {
       document.getElementById(id).classList.toggle("open");
     }
 
+    document.addEventListener("click", function(event) {
+      if (!event.target.closest(".multi-filter")) {
+        document.querySelectorAll(".multi-filter.open").forEach(function(filter) {
+          filter.classList.remove("open");
+        });
+      }
+    });
+
     function setFilterOptions(select, firstOption, options, selectedValues) {
       const optionsContainer = select.querySelector(".multi-filter-options");
       const values = new Set(selectedValues || []);
       optionsContainer.innerHTML = options.map(function(option) {
         const checked = values.has(option.value) ? " checked" : "";
         const allOption = option.all ? " data-all-option=\"true\"" : "";
-        const changeHandler = option.all ? "handleAllMonthSelection(this)" : "applyFilters()";
         return '<label class="multi-filter-option"><input type="checkbox" value="' +
-          safe(option.value) + '"' + checked + allOption + ' onchange="' + changeHandler + '">' +
+          safe(option.value) + '"' + checked + allOption + ' onchange="handleMonthCheckboxSelection(this)">' +
           safe(option.label) + '</label>';
       }).join("");
       if (!selectedValues.length && options.some(function(option) { return option.all; })) {
@@ -1955,11 +2260,20 @@ async function loadData() {
       setFilterOptions(sel, "Bulan", options, selectedMonth);
     }
 
-    function handleAllMonthSelection(input) {
-      if (input.checked) {
-        document.querySelectorAll("#monthFilter input[type=checkbox]:not([data-all-option])")
-          .forEach(function(monthInput) { monthInput.checked = false; });
+    function handleMonthCheckboxSelection(input) {
+      const allInput = document.querySelector("#monthFilter input[data-all-option]");
+      const monthInputs = document.querySelectorAll("#monthFilter input[type=checkbox]:not([data-all-option])");
+
+      if (input.dataset.allOption === "true") {
+        if (input.checked) {
+          monthInputs.forEach(function(monthInput) { monthInput.checked = false; });
+        }
+      } else if (input.checked) {
+        if (allInput) allInput.checked = false;
+      } else if (!Array.from(monthInputs).some(function(monthInput) { return monthInput.checked; })) {
+        if (allInput) allInput.checked = true;
       }
+
       applyFilters();
     }
 
@@ -2010,24 +2324,24 @@ async function loadData() {
         ? normalizeSupplierCode(currentUser)
         : normalizeSupplierCode(document.getElementById("supplierFilter").value);
       const selectedDC = sel.value;
-      const names = new Map();
+      const dcMap = new Map();
 
       getRowsForFilter("dcNameFilter").forEach(function(item) {
+        const code = normalizeSupplierCode(item.DC_CODE);
         const name = String(item.DC_NAME || "").trim();
-        const normalized = normalizeSearchText(name);
 
-        if (normalized && !names.has(normalized)) names.set(normalized, name);
+        if (code && !dcMap.has(code)) dcMap.set(code, name);
       });
 
-      sel.innerHTML = '<option value="">All DC Name</option>';
-      Array.from(names.values())
+      sel.innerHTML = '<option value="">All DC Code</option>';
+      Array.from(dcMap.entries())
         .sort(function(a, b) {
-          return a.localeCompare(b, "id", { sensitivity: "base" });
+          return a[0].localeCompare(b[0], "id", { sensitivity: "base" });
         })
-        .forEach(function(name) {
+        .forEach(function([code, name]) {
           const option = document.createElement("option");
-          option.value = normalizeSearchText(name);
-          option.textContent = name;
+          option.value = code;
+          option.textContent = name ? name + " - " + code : code;
           sel.appendChild(option);
         });
 
@@ -2216,85 +2530,180 @@ async function loadData() {
       if (currentRole !== "supplier") return salesData;
 
       const code = normalizeSupplierCode(currentUser);
+
+      // Kumpulkan nama supplier dari tabel utama (data_supplier) untuk
+      // dicocokkan dengan kolom Principal pada data sales.
+      const supplierNames = new Set();
+      data.forEach(function(row) {
+        if (normalizeSupplierCode(row.SUPPLIER_CODE) === code) {
+          const name = normalizeSearchText(row.SUPPLIER_NAME);
+          if (name) supplierNames.add(name);
+        }
+      });
+
       return salesData.filter(function(row) {
-        return String(row.PRINCIPAL || "").toUpperCase().includes("(" + code + ")");
+        const principal = String(row.PRINCIPAL || "").trim();
+        if (!principal) return false;
+
+        const principalUpper = principal.toUpperCase();
+        if (principalUpper.includes("(" + code + ")")) return true;
+
+        const inBrackets = (principal.match(/\(([^)]*)\)/) || [])[1] || "";
+        if (normalizeSupplierCode(inBrackets) === code) return true;
+
+        const principalName = normalizeSearchText(principal.split("(")[0].trim());
+        if (principalName && principalName.length >= 4) {
+          return Array.from(supplierNames).some(function(name) {
+            return name.length >= 4 &&
+              (principalName.includes(name) || name.includes(principalName));
+          });
+        }
+
+        return false;
+      });
+    }
+
+    function getSelectedValuesForSelect(selectId) {
+      const element = document.getElementById(selectId);
+      if (!element) return [];
+
+      if (element.tagName === "SELECT" && element.multiple) {
+        return Array.from(element.selectedOptions).map(function(option) {
+          return String(option.value || "").trim();
+        }).filter(function(value) {
+          return value && value !== "__ALL__";
+        });
+      }
+
+      if (element.tagName === "SELECT") {
+        const value = String(element.value || "").trim();
+        return value ? [value] : [];
+      }
+
+      return [];
+    }
+
+    function loadSalesSelect(id, values, selectedValues, allLabel) {
+      const select = document.getElementById(id);
+      if (!select || !select.multiple) return;
+
+      const selectedSet = new Set((selectedValues || []).filter(Boolean));
+      const allOption = select.querySelector('option[value="__ALL__"]');
+      const keepAllSelected = (allOption && allOption.selected) || selectedSet.size === 0;
+
+      const uniqueValues = Array.from(new Set(values));
+
+      select.innerHTML =
+        '<option value="__ALL__"' + (keepAllSelected ? ' selected' : '') + '>' + safe(allLabel || "All") + '</option>' +
+        uniqueValues.map(function(value) {
+          return '<option value="' + safe(value) + '"' + (selectedSet.has(value) ? ' selected' : '') + '>' + safe(value) + '</option>';
+        }).join("");
+    }
+
+    function handleSalesFilterChange(select) {
+      const allOption = select.querySelector('option[value="__ALL__"]');
+      if (allOption) {
+        if (allOption.selected) {
+          Array.from(select.options).forEach(function(option) {
+            if (option.value !== "__ALL__") option.selected = false;
+          });
+        } else {
+          const hasOther = Array.from(select.options).some(function(option) {
+            return option.value !== "__ALL__" && option.selected;
+          });
+          if (!hasOther) allOption.selected = true;
+        }
+      }
+
+      renderSalesDashboard();
+    }
+
+    const SALES_FILTER_CONFIG = [
+      { id: "salesDCFilter", field: "DC" },
+      { id: "salesYearFilter", field: "TAHUN" },
+      { id: "salesMonthFilter", field: "BULAN" },
+      { id: "salesDivisionFilter", field: "DIVISI" },
+      { id: "salesCategoryFilter", field: "KATEGORI" },
+      { id: "salesPrincipalFilter", field: "PRINCIPAL" },
+      { id: "salesDepartmentFilter", field: "DEPARTEMEN" },
+      { id: "salesBrandFilter", field: "BRAND" },
+      { id: "salesProductFilter", field: "DESKRIPSI_PRODUK" }
+    ];
+
+    function matchesSalesRowFilters(row, configs) {
+      return configs.every(function(config) {
+        const selectedValues = getSelectedValuesForSelect(config.id);
+        if (!selectedValues.length) return true;
+        const rowValue = String(row[config.field] || "").trim();
+        return selectedValues.includes(rowValue);
       });
     }
 
     function getSalesFilteredData() {
-      const visibleData = getSalesVisibleData();
-      const dc = document.getElementById("salesDCFilter").value;
-      const year = document.getElementById("salesYearFilter").value;
-      const month = document.getElementById("salesMonthFilter").value;
-      const division = document.getElementById("salesDivisionFilter").value;
-      const category = document.getElementById("salesCategoryFilter").value;
-      const principal = document.getElementById("salesPrincipalFilter").value;
-      const department = document.getElementById("salesDepartmentFilter").value;
-      const brand = document.getElementById("salesBrandFilter").value;
-      const product = document.getElementById("salesProductFilter").value;
-
-      return visibleData.filter(function(row) {
-        return (!dc || row.DC === dc) &&
-          (!year || row.TAHUN === year) &&
-          (!month || row.BULAN === month) &&
-          (!division || row.DIVISI === division) &&
-          (!category || row.KATEGORI === category) &&
-          (!principal || row.PRINCIPAL === principal) &&
-          (!department || row.DEPARTEMEN === department) &&
-          (!brand || row.BRAND === brand) &&
-          (!product || row.DESKRIPSI_PRODUK === product);
+      return getSalesVisibleData().filter(function(row) {
+        return matchesSalesRowFilters(row, SALES_FILTER_CONFIG);
       });
     }
 
-    function loadSalesSelect(id, values, firstLabel, selected) {
-      const select = document.getElementById(id);
-      select.innerHTML = '<option value="">' + firstLabel + '</option>' + values.map(function(value) {
-        return '<option value="' + safe(value) + '">' + safe(value) + '</option>';
-      }).join("");
-      select.value = values.includes(selected) ? selected : "";
-    }
-
     function loadSalesFilters() {
-      const dc = document.getElementById("salesDCFilter").value;
-      const year = document.getElementById("salesYearFilter").value;
-      const month = document.getElementById("salesMonthFilter").value;
-      const division = document.getElementById("salesDivisionFilter").value;
-      const category = document.getElementById("salesCategoryFilter").value;
-      const principal = document.getElementById("salesPrincipalFilter").value;
-      const department = document.getElementById("salesDepartmentFilter").value;
-      const brand = document.getElementById("salesBrandFilter").value;
-      const product = document.getElementById("salesProductFilter").value;
-      const values = function(field) {
-        return Array.from(new Set(getSalesVisibleData().map(function(row) {
-          return String(row[field] || "").trim();
-        }).filter(function(value) {
-          return value && value.toLowerCase() !== "null" && value.toLowerCase() !== "undefined";
-        })));
+      const allLabels = {
+        salesDCFilter: "All DC Name",
+        salesYearFilter: "All Tahun",
+        salesMonthFilter: "All Bulan",
+        salesDivisionFilter: "All Divisi",
+        salesCategoryFilter: "All Kategori",
+        salesPrincipalFilter: "All Principal",
+        salesDepartmentFilter: "All Departemen",
+        salesBrandFilter: "All Brand",
+        salesProductFilter: "All Deskripsi Produk"
       };
 
-      loadSalesSelect("salesDCFilter", values("DC").sort(), "All DC Name", dc);
-      loadSalesSelect("salesYearFilter", values("TAHUN").sort(function(a, b) {
-        return Number(b) - Number(a);
-      }), "All Tahun", year);
-      loadSalesSelect("salesMonthFilter", values("BULAN").sort(function(a, b) {
-        return getSalesMonthNumber(a) - getSalesMonthNumber(b);
-      }), "All Bulan", month);
-      loadSalesSelect("salesDivisionFilter", values("DIVISI").sort(), "All Divisi", division);
-      loadSalesSelect("salesCategoryFilter", values("KATEGORI").sort(), "All Kategori", category);
-      loadSalesSelect("salesPrincipalFilter", values("PRINCIPAL").sort(), "All Principal", principal);
-      loadSalesSelect("salesDepartmentFilter", values("DEPARTEMEN").sort(), "All Departemen", department);
-      loadSalesSelect("salesBrandFilter", values("BRAND").sort(), "All Brand", brand);
-      loadSalesSelect("salesProductFilter", values("DESKRIPSI_PRODUK").sort(), "All Deskripsi Produk", product);
+      const visibleData = getSalesVisibleData();
+
+      SALES_FILTER_CONFIG.forEach(function(config) {
+        const otherConfigs = SALES_FILTER_CONFIG.filter(function(other) {
+          return other.id !== config.id;
+        });
+
+        // Opsi tiap filter dibangun dari baris yang tersisa setelah filter lain
+        // diterapkan, sehingga opsi selalu sesuai dengan data yang tampil di grafik.
+        const valueSet = new Set();
+        visibleData.forEach(function(row) {
+          if (!matchesSalesRowFilters(row, otherConfigs)) return;
+          const value = String(row[config.field] || "").trim();
+          if (value && value.toLowerCase() !== "null" && value.toLowerCase() !== "undefined") {
+            valueSet.add(value);
+          }
+        });
+
+        const dataValues = Array.from(valueSet).sort(function(a, b) {
+          if (config.field === "TAHUN") return Number(b) - Number(a);
+          if (config.field === "BULAN") return getSalesMonthNumber(a) - getSalesMonthNumber(b);
+          return String(a).localeCompare(String(b), "id", { sensitivity: "base" });
+        });
+
+        // Pertahankan hanya nilai terpilih yang masih ada di data hasil filter.
+        const currentValues = getSelectedValuesForSelect(config.id).filter(function(value) {
+          return dataValues.includes(value);
+        });
+
+        loadSalesSelect(config.id, dataValues, currentValues, allLabels[config.id] || "All");
+      });
     }
 
     function getSalesMonthNumber(month) {
+      const clean = String(month).trim().toLowerCase();
       const names = {
         jan: 1, januari: 1, feb: 2, februari: 2, mar: 3, maret: 3,
         apr: 4, april: 4, may: 5, mei: 5, jun: 6, juni: 6,
-        jul: 7, juli: 7, aug: 8, agustus: 8, sep: 9, september: 9,
-        oct: 10, oktober: 10, nov: 11, november: 11, dec: 12, desember: 12
+        jul: 7, juli: 7, aug: 8, agustus: 8, ags: 8, sep: 9, september: 9,
+        oct: 10, oktober: 10, okt: 10, nov: 11, november: 11,
+        dec: 12, desember: 12, des: 12
       };
-      return names[String(month).trim().toLowerCase()] || 99;
+      if (names[clean]) return names[clean];
+      const numeric = parseInt(clean, 10);
+      if (!isNaN(numeric) && numeric >= 1 && numeric <= 12) return numeric;
+      return 99;
     }
 
     function normalizeSalesText(value) {
@@ -2429,13 +2838,15 @@ async function loadData() {
     function normalizeSalesRow(row) {
       const year = String(getFlexible(row, ["TAHUN", "YEAR"], "")).trim();
       const month = String(getFlexible(row, ["BULAN", "MONTH"], "")).trim();
+      const monthLabel = toSalesMonthLabel(month);
+      const yearLabel = /^\d{4}$/.test(year) ? year : "";
       return {
         UNIT: String(getFlexible(row, ["UNIT"], "")).trim(),
         DC: String(getFlexible(row, ["DC"], "")).trim(),
-        TAHUN: year,
-        BULAN: month,
-        SALES_DATE: year && getSalesMonthNumber(month) <= 12
-          ? year + "-" + String(getSalesMonthNumber(month)).padStart(2, "0") + "-01"
+        TAHUN: yearLabel,
+        BULAN: monthLabel,
+        SALES_DATE: yearLabel && monthLabel
+          ? yearLabel + "-" + String(getSalesMonthNumber(monthLabel)).padStart(2, "0") + "-01"
           : String(getFlexible(row, ["SALES DATE", "SALES_DATE"], "")).trim(),
         PLU: String(getFlexible(row, ["PLU"], "")).trim(),
         DESKRIPSI_PRODUK: String(getFlexible(row, ["DESKRIPSI PRODUK", "DESKRIPSI_PRODUK", "PLU DESC", "PRODUCT DESCRIPTION"], "")).trim(),
@@ -2456,11 +2867,14 @@ async function loadData() {
       const year = String(getFlexible(row, ["TAHUN", "tahun", "YEAR", "year"], "")).trim();
       const month = String(getFlexible(row, ["BULAN", "bulan", "MONTH", "month"], "")).trim();
       const date = salesDate ? new Date(salesDate) : null;
+      const dateValid = date && !isNaN(date.getTime());
+      const yearLabel = /^\d{4}$/.test(year) ? year : (dateValid ? String(date.getFullYear()) : "");
+      const monthLabel = toSalesMonthLabel(month) || (dateValid ? getSalesMonthLabels()[date.getMonth()] : "");
       return {
         UNIT: String(getFlexible(row, ["UNIT", "unit"], "")).trim(),
         DC: String(getFlexible(row, ["DC", "dc"], "")).trim(),
-        TAHUN: year || (date && !isNaN(date.getTime()) ? String(date.getFullYear()) : ""),
-        BULAN: month || (date && !isNaN(date.getTime()) ? getSalesMonthLabels()[date.getMonth()] : ""),
+        TAHUN: yearLabel,
+        BULAN: monthLabel,
         PLU: String(getFlexible(row, ["PLU", "plu"], "")).trim(),
         DESKRIPSI_PRODUK: String(getFlexible(row, ["DESKRIPSI_PRODUK", "deskripsi_produk", "DESKRIPSI PRODUK", "PLU DESC", "plu_desc", "product_description"], "")).trim(),
         DIVISI: String(getFlexible(row, ["DIVISI", "divisi", "DIVISION", "division"], "")).trim(),
@@ -2545,6 +2959,12 @@ async function loadData() {
       return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     }
 
+    function toSalesMonthLabel(value) {
+      const num = getSalesMonthNumber(value);
+      if (num < 1 || num > 12) return "";
+      return getSalesMonthLabels()[num - 1];
+    }
+
     function getSalesTrendRows(rows, field) {
       const validRows = rows.filter(function(row) {
         return normalizeSalesText(row.TAHUN) && getSalesMonthNumber(row.BULAN) <= 12;
@@ -2562,60 +2982,137 @@ async function loadData() {
       }) };
     }
 
+    function hexToRgba(hex, alpha) {
+      const value = String(hex || "#0f172a").replace("#", "");
+      const bigint = parseInt(value, 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
+    }
+
     function createSalesTrendChart(id, rows, field, percentMode, color) {
       const canvas = document.getElementById(id);
+      if (!canvas) return null;
       const currencyMode = field !== "QUANTITY";
       const trend = getSalesTrendRows(rows, field);
+      const salesTrend = percentMode ? getSalesTrendRows(rows, "SALES_NET") : null;
+      const ctx = canvas.getContext("2d");
+      const palette = [color, "#f97316", "#8b5cf6", "#10b981", "#ef4444"];
+
       const datasets = trend.years.map(function(year, index) {
+        const lineColor = palette[index % palette.length];
+        const gradient = ctx.createLinearGradient(0, 0, 0, 240);
+        gradient.addColorStop(0, hexToRgba(lineColor, 0.22));
+        gradient.addColorStop(1, hexToRgba(lineColor, 0));
         return {
           label: year,
           data: trend.values[index].map(function(value, monthIndex) {
             if (!percentMode) return value === 0 ? null : value;
-            const sales = getSalesTrendRows(rows.filter(function(row) { return row.TAHUN === year; }), "SALES_NET").values[0][monthIndex];
+            const yearIdx = salesTrend ? salesTrend.years.indexOf(year) : -1;
+            const sales = yearIdx >= 0 ? salesTrend.values[yearIdx][monthIndex] : 0;
             return sales > 0 ? value / sales * 100 : null;
           }),
-          borderColor: index === 0 ? color : "#f97316",
-          backgroundColor: "transparent",
-          borderWidth: 2,
-          pointRadius: 2,
-          tension: .25
+          borderColor: lineColor,
+          backgroundColor: gradient,
+          fill: true,
+          borderWidth: 2.5,
+          pointRadius: 3,
+          pointHoverRadius: 6,
+          pointBackgroundColor: "#fff",
+          pointBorderColor: lineColor,
+          pointBorderWidth: 2,
+          tension: .35
         };
       });
-      return new Chart(canvas.getContext("2d"), {
+
+      return new Chart(ctx, {
         type: "line",
         data: { labels: trend.labels, datasets: datasets },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          animation: { duration: 700, easing: "easeOutQuart" },
+          interaction: { mode: "index", intersect: false },
           plugins: {
-            legend: { position: "bottom", labels: { boxWidth: 18, font: { size: 10 } } },
-            tooltip: { callbacks: { label: function(context) {
-              if (context.raw === null || context.raw === undefined) return "";
-              return percentMode ? context.raw.toFixed(2) + "%" :
-                currencyMode ? formatRupiah(context.raw) : formatNumber(context.raw);
-            } } }
+            legend: {
+              position: "bottom",
+              labels: { boxWidth: 18, boxHeight: 3, usePointStyle: true, pointStyle: "line", font: { size: 11, weight: "bold" }, color: "#334155", padding: 12 }
+            },
+            tooltip: {
+              backgroundColor: "rgba(15,23,42,.95)",
+              padding: 10,
+              titleFont: { size: 12, weight: "bold" },
+              bodyFont: { size: 11 },
+              displayColors: true,
+              callbacks: {
+                title: function(items) {
+                  if (!items.length) return "";
+                  const i = items[0].dataIndex;
+                  const year = items[0].dataset.label;
+                  return (trend.labels[i] || "") + " " + year;
+                },
+                label: function(context) {
+                  if (context.raw === null || context.raw === undefined) return "";
+                  const value = percentMode ? context.raw.toFixed(2) + "%" :
+                    currencyMode ? formatRupiah(context.raw) : formatNumber(context.raw);
+                  return context.dataset.label + ": " + value;
+                }
+              }
+            }
           },
           scales: {
-            y: { beginAtZero: true, ticks: { callback: function(value) {
-                return percentMode ? value + "%" : currencyMode ? formatCompactSalesValue(value) : formatNumber(value);
-            } } },
-            x: { grid: { display: false } }
+            y: {
+              beginAtZero: true,
+              grid: { color: "rgba(148,163,184,.16)" },
+              border: { display: false },
+              ticks: {
+                color: "#64748b",
+                font: { size: 10 },
+                callback: function(value) {
+                  return percentMode ? value + "%" : currencyMode ? formatCompactSalesValue(value) : formatNumber(value);
+                }
+              }
+            },
+            x: {
+              grid: { display: false },
+              border: { display: false },
+              ticks: { color: "#64748b", font: { size: 10 } }
+            }
           }
         }
       });
     }
 
-    function renderSalesTopTable(id, rows, field, direction) {
+    function renderSalesTopTable(id, rows, field, direction, valueField) {
       const grouped = new Map();
+      const metricField = valueField || "SALES_NET";
+
       rows.forEach(function(row) {
         const name = String(row[field] || "Tanpa nama").trim();
-        grouped.set(name, (grouped.get(name) || 0) + parseNumber(row.SALES_NET));
+        if (!name) return;
+        grouped.set(name, (grouped.get(name) || 0) + parseNumber(row[metricField]));
       });
-      const result = Array.from(grouped.entries()).sort(function(a, b) {
-        return direction === "bottom" ? a[1] - b[1] : b[1] - a[1];
-      }).slice(0, 10);
-      document.getElementById(id).innerHTML = result.length ? result.map(function(item, index) {
-        return "<tr><td>" + (index + 1) + "</td><td>" + safe(item[0]) + "</td><td>" + formatRupiah(item[1]) + "</td></tr>";
+
+      let result = Array.from(grouped.entries());
+
+      if (direction === "negative") {
+        result = result.filter(function(item) {
+          return item[1] < 0;
+        }).sort(function(a, b) {
+          return a[1] - b[1];
+        });
+      } else {
+        result = result.sort(function(a, b) {
+          return direction === "bottom" ? a[1] - b[1] : b[1] - a[1];
+        });
+      }
+
+      const limited = result.slice(0, 10);
+      document.getElementById(id).innerHTML = limited.length ? limited.map(function(item, index) {
+        const rank = index + 1;
+        const rowClass = rank <= 3 ? " rank-" + rank : "";
+        return "<tr class=\"" + rowClass.trim() + "\"><td><span class=\"rank-badge\">" + rank + "</span></td><td>" + safe(item[0]) + "</td><td>" + formatRupiah(item[1]) + "</td></tr>";
       }).join("") : '<tr><td class="sales-empty" colspan="3">Belum ada data sales.</td></tr>';
     }
 
@@ -2640,30 +3137,52 @@ async function loadData() {
       const percentMode = mode === "marginPercent";
       const currencyMode = !percentMode;
       const canvas = document.getElementById(id);
+      if (!canvas) return null;
+      const ctx = canvas.getContext("2d");
 
-      return new Chart(canvas.getContext("2d"), {
+      const gradient = ctx.createLinearGradient(0, 0, 0, 160);
+      gradient.addColorStop(0, color);
+      gradient.addColorStop(1, hexToRgba(color, 0.22));
+
+      const seriesName = mode === "marginPercent" ? "Margin %" : mode === "margin" ? "Margin" : "Sales";
+
+      return new Chart(ctx, {
         type: "bar",
         data: {
-          labels: years.length ? years : ["-"] ,
+          labels: years.length ? years : ["-"],
           datasets: [{
             data: values.length ? values : [0],
-            backgroundColor: color,
-            borderColor: color,
-            borderWidth: 1,
-            borderRadius: 4,
-            maxBarThickness: 48
+            backgroundColor: gradient,
+            hoverBackgroundColor: color,
+            borderColor: "transparent",
+            borderRadius: 8,
+            borderSkipped: false,
+            maxBarThickness: 52
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          animation: { duration: 700, easing: "easeOutQuart" },
           plugins: {
             legend: { display: false },
-            tooltip: { callbacks: { label: function(context) {
-              if (context.raw === null || context.raw === undefined) return "";
-              return percentMode ? context.raw.toFixed(2) + "%" :
-                currencyMode ? formatRupiah(context.raw) : formatNumber(context.raw);
-            } } },
+            tooltip: {
+              backgroundColor: "rgba(15,23,42,.95)",
+              padding: 12,
+              titleFont: { size: 13, weight: "bold" },
+              bodyFont: { size: 12 },
+              displayColors: false,
+              callbacks: {
+                title: function(items) {
+                  if (!items.length) return "";
+                  return "Tahun " + items[0].label;
+                },
+                label: function(context) {
+                  if (context.raw === null || context.raw === undefined) return "";
+                  return seriesName + ": " + (percentMode ? context.raw.toFixed(2) + "%" : currencyMode ? formatRupiah(context.raw) : formatNumber(context.raw));
+                }
+              }
+            },
             datalabels: {
               display: function(context) {
                 return context.dataset.data[context.dataIndex] !== null &&
@@ -2672,27 +3191,36 @@ async function loadData() {
               },
               anchor: "end",
               align: "top",
-              offset: 3,
+              offset: 4,
               clamp: true,
               clip: false,
-              color: "#0f2f6f",
-              font: { size: 9, weight: "bold" },
+              color: "#334155",
+              font: { size: 10, weight: "bold" },
               formatter: function(value) {
                 return value === null || value === undefined || value === 0 ? "" :
                   percentMode ? value.toFixed(2) + "%" : formatCompactSalesValue(value);
               }
             }
           },
-          layout: { padding: { top: 18, right: 8, left: 8 } },
+          layout: { padding: { top: 22, right: 8, left: 8 } },
           scales: {
             y: {
               beginAtZero: true,
-              title: { display: false },
-              ticks: { callback: function(value) {
-                return percentMode ? value + "%" : formatCompactSalesValue(value);
-              } }
+              grid: { color: "rgba(148,163,184,.16)" },
+              border: { display: false },
+              ticks: {
+                color: "#64748b",
+                font: { size: 10 },
+                callback: function(value) {
+                  return percentMode ? value + "%" : formatCompactSalesValue(value);
+                }
+              }
             },
-            x: { title: { display: false }, grid: { display: false } }
+            x: {
+              grid: { display: false },
+              border: { display: false },
+              ticks: { color: "#334155", font: { size: 11, weight: "bold" } }
+            }
           }
         },
         plugins: [ChartDataLabels]
@@ -2708,14 +3236,17 @@ async function loadData() {
         return result;
       }, { value: 0, margin: 0 });
 
-      document.getElementById("salesDataInfo").textContent = rows.length.toLocaleString("id-ID") + " baris data";
+      const marginPct = totals.value ? (totals.margin / totals.value * 100) : 0;
+      document.getElementById("salesDataInfo").textContent =
+        rows.length.toLocaleString("id-ID") + " baris • Sales " + formatRupiah(totals.value) +
+        " • Margin " + formatRupiah(totals.margin) + " (" + marginPct.toFixed(1) + "%)";
       ["salesYearComparisonChart", "marginYearComparisonChart", "marginPercentYearComparisonChart", "salesTrendChart", "salesQtyChart", "salesMarginChart", "salesMarginPercentChart"].forEach(function(id) {
         const chart = Chart.getChart(id);
         if (chart) chart.destroy();
       });
       createSalesYearComparisonChart("salesYearComparisonChart", rows, "sales", "#0f2f6f");
       createSalesYearComparisonChart("marginYearComparisonChart", rows, "margin", "#f97316");
-      createSalesYearComparisonChart("marginPercentYearComparisonChart", rows, "marginPercent", "#0f2f6f");
+      createSalesYearComparisonChart("marginPercentYearComparisonChart", rows, "marginPercent", "#7c3aed");
       salesTrendChart = createSalesTrendChart("salesTrendChart", rows, "SALES_NET", false, "#0f4c81");
       salesQtyChart = createSalesTrendChart("salesQtyChart", rows, "QUANTITY", false, "#0f4c81");
       salesMarginChart = createSalesTrendChart("salesMarginChart", rows, "MARGIN_RPH", false, "#0f4c81");
@@ -2724,6 +3255,21 @@ async function loadData() {
       renderSalesTopTable("bottomSalesPrincipalTable", rows, "PRINCIPAL", "bottom");
       renderSalesTopTable("salesProductTable", rows, "DESKRIPSI_PRODUK");
       renderSalesTopTable("bottomSalesProductTable", rows, "DESKRIPSI_PRODUK", "bottom");
+      renderSalesTopTable("marginPrincipalTable", rows, "PRINCIPAL", "positive", "MARGIN_RPH");
+      renderSalesTopTable("minusMarginPrincipalTable", rows, "PRINCIPAL", "negative", "MARGIN_RPH");
+      renderSalesTopTable("marginProductTable", rows, "DESKRIPSI_PRODUK", "positive", "MARGIN_RPH");
+      renderSalesTopTable("minusMarginProductTable", rows, "DESKRIPSI_PRODUK", "negative", "MARGIN_RPH");
+    }
+
+    function getRowLatestDelivery(item) {
+      let latest = null;
+
+      [item.LAST_DELIVERY_DATE, item.BTB_DATE].forEach(function(value) {
+        const date = parseDate(value);
+        if (date && (!latest || date > latest)) latest = date;
+      });
+
+      return latest;
     }
 
     function renderEmptyItemsTable() {
@@ -2746,30 +3292,37 @@ async function loadData() {
 
       getFilteredData()
         .filter(function(item) {
-          return parseNumber(item.STOCK_QTY) === 0 &&
+          return isEmptyStock(item) &&
             (!activeSupplier || normalizeSupplierCode(item.SUPPLIER_CODE) === activeSupplier) &&
-            (!activeDC || normalizeSearchText(item.DC_NAME) === activeDC);
+            (!activeDC || normalizeSupplierCode(item.DC_CODE) === activeDC);
         })
         .forEach(function(item) {
           const plu = String(item.PLU || "").trim().toUpperCase();
           if (!plu) return;
 
+          const dcCode = normalizeSupplierCode(item.DC_CODE);
+          // Kondisi kosong bersifat per-DC: satu PLU di DC berbeda diperlakukan terpisah.
+          const key = plu + "||" + dcCode;
+
           const searchText = normalizeSearchText([
             item.PLU,
             item.PLU_DESC,
             item.SUPPLIER_CODE,
-            item.SUPPLIER_NAME
+            item.SUPPLIER_NAME,
+            dcCode
           ].join(" "));
           if (query && !searchText.includes(query)) return;
 
-          const latestDelivery = getLatestDeliveryDateByPLU(item);
-          const existing = groups.get(plu);
+          const latestDelivery = getRowLatestDelivery(item);
+          const existing = groups.get(key);
 
           if (!existing ||
             (latestDelivery && (!existing.lastDelivery || latestDelivery > existing.lastDelivery))) {
-            groups.set(plu, {
+            groups.set(key, {
               plu: plu,
               description: String(item.PLU_DESC || "").trim(),
+              dcCode: dcCode,
+              dcName: String(item.DC_NAME || "").trim(),
               stockQty: item.STOCK_QTY,
               dsiStock: item.DSI_STOCK,
               lastDelivery: latestDelivery,
@@ -2783,7 +3336,8 @@ async function loadData() {
         if (!a.lastDelivery && b.lastDelivery) return -1;
         if (a.lastDelivery && !b.lastDelivery) return 1;
         if (a.lastDelivery && b.lastDelivery) return a.lastDelivery - b.lastDelivery;
-        return a.plu.localeCompare(b.plu, "id", { sensitivity: "base" });
+        const byDC = a.dcCode.localeCompare(b.dcCode, "id", { sensitivity: "base" });
+        return byDC || a.plu.localeCompare(b.plu, "id", { sensitivity: "base" });
       });
 
       tbody.innerHTML = rows.map(function(row) {
@@ -2793,6 +3347,7 @@ async function loadData() {
         return "<tr>" +
           "<td>" + safe(row.plu) + "</td>" +
           "<td>" + safe(row.description || "-") + "</td>" +
+          "<td>" + safe(row.dcCode || "-") + "</td>" +
           (currentRole === "admin" ? "<td>" + formatNumber(row.stockQty) + "</td>" : "") +
           "<td>" + formatNumber(row.dsiStock) + "</td>" +
           "<td>" + safe(row.lastDelivery ? formatDate(row.lastDelivery) : "Belum pernah") + "</td>" +
@@ -2808,28 +3363,28 @@ async function loadData() {
     function loadEmptyItemsDCFilter(selectedSupplier) {
       const sel = document.getElementById("emptyItemsDCFilter");
       const selectedDC = sel.value;
-      const names = new Map();
+      const dcMap = new Map();
 
       getFilteredData()
         .filter(function(item) {
-          return parseNumber(item.STOCK_QTY) === 0 &&
+          return isEmptyStock(item) &&
             (!selectedSupplier || normalizeSupplierCode(item.SUPPLIER_CODE) === selectedSupplier);
         })
         .forEach(function(item) {
+          const code = normalizeSupplierCode(item.DC_CODE);
           const name = String(item.DC_NAME || "").trim();
-          const normalized = normalizeSearchText(name);
-          if (normalized) names.set(normalized, name);
+          if (code && !dcMap.has(code)) dcMap.set(code, name);
         });
 
-      sel.innerHTML = '<option value="">All DC Name</option>';
-      Array.from(names.entries())
+      sel.innerHTML = '<option value="">All DC Code</option>';
+      Array.from(dcMap.entries())
         .sort(function(a, b) {
-          return a[1].localeCompare(b[1], "id", { sensitivity: "base" });
+          return a[0].localeCompare(b[0], "id", { sensitivity: "base" });
         })
-        .forEach(function([value, label]) {
+        .forEach(function([code, name]) {
           const option = document.createElement("option");
-          option.value = value;
-          option.textContent = label;
+          option.value = code;
+          option.textContent = name ? name + " - " + code : code;
           sel.appendChild(option);
         });
 
@@ -2851,8 +3406,8 @@ async function loadData() {
 
       getFilteredData()
         .filter(function(item) {
-          return parseNumber(item.STOCK_QTY) === 0 &&
-            (!selectedDC || normalizeSearchText(item.DC_NAME) === selectedDC);
+          return isEmptyStock(item) &&
+            (!selectedDC || normalizeSupplierCode(item.DC_CODE) === selectedDC);
         })
         .forEach(function(item) {
           const code = normalizeSupplierCode(item.SUPPLIER_CODE);
@@ -2888,15 +3443,19 @@ async function loadData() {
       return set;
     }
 
+    function isEmptyStock(item) {
+      return parseNumber(item.STOCK_QTY) <= 0 || parseNumber(item.DSI_STOCK) === 0;
+    }
+
     function getUniqueEmptyStockPLU(rows) {
       const set = new Set();
 
       rows.forEach(function(item) {
         const plu = String(item.PLU || "").trim().toUpperCase();
-        const stock = parseNumber(item.STOCK_QTY);
 
-        if (plu && stock <= 0) {
-          set.add(plu);
+        // Dihitung unik per kombinasi PLU + DC agar kondisi stock mengikuti DC masing-masing.
+        if (plu && isEmptyStock(item)) {
+          set.add(plu + "||" + normalizeSupplierCode(item.DC_CODE || ""));
         }
       });
 
@@ -3364,6 +3923,48 @@ async function loadData() {
       renderTablePage();
     }
 
+    function pushRecordUpdateToSupabase(record, changes) {
+      return new Promise(function(resolve) {
+        (async function() {
+          try {
+            if (!supabaseClient || !supabaseClient.auth || !currentRole) {
+              resolve({ remoteOk: false, remoteError: null });
+              return;
+            }
+
+            const { data: sessionData } = await supabaseClient.auth.getSession();
+            if (!sessionData || !sessionData.session) {
+              resolve({ remoteOk: false, remoteError: null });
+              return;
+            }
+
+            let match = {};
+            if (record.id !== undefined && record.id !== null) {
+              match = { id: record.id };
+            } else if (record._id !== undefined && record._id !== null) {
+              match = { id: record._id };
+            } else {
+              match = {
+                SUPPLIER_CODE: String(record.SUPPLIER_CODE || "").trim(),
+                PLU: String(record.PLU || "").trim(),
+                PO_NUMBER: String(record.PO_NUMBER || "").trim(),
+                DC_NAME: String(record.DC_NAME || "").trim()
+              };
+            }
+
+            const { error } = await supabaseClient
+              .from("data_supplier")
+              .update(changes)
+              .match(match);
+
+            resolve({ remoteOk: !error, remoteError: error });
+          } catch (e) {
+            resolve({ remoteOk: false, remoteError: e });
+          }
+        })();
+      });
+    }
+
     function updateRecord(id, changes) {
       return new Promise((resolve, reject) => {
         const transaction = db.transaction(STORE_NAME, "readwrite");
@@ -3387,7 +3988,11 @@ async function loadData() {
 
             if (index >= 0) Object.assign(data[index], changes);
 
-            resolve();
+            pushRecordUpdateToSupabase(record, changes).then(function(result) {
+              resolve(result);
+            }).catch(function(reason) {
+              resolve({ remoteOk: false, remoteError: reason });
+            });
           };
 
           updateRequest.onerror = function() {
@@ -3416,12 +4021,17 @@ async function loadData() {
       }
 
       try {
-        await updateRecord(id, {
+        const result = await updateRecord(id, {
           STATUS: newStatus,
           UPDATE_DATE: new Date().toISOString()
         });
 
-        showToast("Status berhasil diubah.");
+        if (result && !result.remoteOk && result.remoteError) {
+          console.warn("Sinkron ke Supabase gagal:", result.remoteError);
+          showToast("Tersimpan lokal; sinkron Supabase belum aktif (cek RLS/skema).");
+        } else {
+          showToast("Status berhasil diubah.");
+        }
         renderDashboard();
       } catch (e) {
         console.error(e);
@@ -3450,13 +4060,19 @@ async function loadData() {
           ? note + " | Edit: " + date + " oleh " + editor
           : "Edit: " + date + " oleh " + editor;
 
-        await updateRecord(id, {
+        const result = await updateRecord(id, {
           KETERANGAN: formattedValue,
           UPDATE_DATE: now.toISOString()
         });
 
+        if (result && !result.remoteOk && result.remoteError) {
+          console.warn("Sinkron ke Supabase gagal:", result.remoteError);
+          showToast("Tersimpan lokal; sinkron Supabase belum aktif (cek RLS/skema).");
+        } else {
+          showToast("Keterangan berhasil disimpan.");
+        }
+
         renderEmptyItemsTable();
-        showToast("Keterangan berhasil disimpan.");
       } catch (e) {
         console.error(e);
         showToast("Gagal menyimpan keterangan.");
