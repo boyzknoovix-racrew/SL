@@ -692,6 +692,23 @@
       align-items: start;
     }
 
+    .sales-filter-grid > .search-field-item {
+      grid-column: span 2;
+    }
+
+    .sales-filter-grid .search-box input {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    .sales-filter-grid .search-box input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    }
+
     @media (max-width: 1400px) {
       .sales-filter-grid { grid-template-columns: repeat(4, minmax(170px, 1fr)); }
     }
@@ -1360,7 +1377,7 @@
 
     <main class="container">
       <div class="tab-bar">
-        <button class="tab-button active" id="dashboardTabButton" type="button" onclick="showTab('dashboardTab')">Dashboard</button>
+        <button class="tab-button active" id="dashboardTabButton" type="button" onclick="showTab('dashboardTab')">Dashboard SL Supplier</button>
         <button class="tab-button" id="emptyItemsTabButton" type="button" onclick="showTab('emptyItemsTab')">Daftar Barang Kosong</button>
         <button class="tab-button" id="salesTabButton" type="button" onclick="showTab('salesTab')">Dashboard Sales</button>
       </div>
@@ -1404,69 +1421,140 @@
       <div class="filter-panel">
         <div class="filter-heading">
           <h3>Filter Data</h3>
+          <div class="sales-filter-head">
+            <button type="button" class="btn-reset" onclick="resetFilters()">↺ Reset Filter</button>
+          </div>
         </div>
-        <div class="filter-grid">
-          <div class="filter-field">
+        <div class="sales-filter-grid">
+          <div class="filter-field search-field-item">
             <label for="searchInput">Pencarian</label>
             <div class="search-box">
-              <input type="text" id="searchInput" placeholder="🔎 Cari PLU / nama barang / PO Number / keterangan..." oninput="handleSearchInput()" onfocus="showSearchSuggestions()" />
+              <input type="text" id="searchInput" placeholder="🔎 Cari PLU / nama barang / supplier..." oninput="handleSearchInput()" onfocus="showSearchSuggestions()" />
               <div id="searchSuggestions" class="search-suggestions"></div>
             </div>
           </div>
 
-          <div class="filter-field">
-            <label for="supplierFilter">All Supplier</label>
-            <select id="supplierFilter" onchange="applyFilters()">
-              <option value="">All Supplier</option>
-            </select>
-          </div>
-
-          <div class="filter-field">
-            <label for="dcNameFilter">All DC Code</label>
-            <select id="dcNameFilter" onchange="applyFilters()">
-              <option value="">All DC Code</option>
-            </select>
-          </div>
-
-          <div class="filter-field">
-            <label for="yearFilter">Tahun</label>
-            <select id="yearFilter" onchange="applyFilters()">
-              <option value="">All Tahun</option>
-            </select>
-          </div>
-
-          <div class="filter-field">
-            <label for="monthFilter">Bulan</label>
-            <div class="multi-filter" id="monthFilter">
-              <button class="multi-filter-button" type="button" onclick="toggleFilter('monthFilter')">Bulan</button>
-              <div class="multi-filter-options"></div>
+          <div class="sales-filter-field">
+            <label for="supplierFilter">Supplier</label>
+            <div class="ms-select" id="supplierFilter" data-all-label="All Supplier" data-dashboard-filter>
+              <button type="button" class="ms-btn" onclick="toggleSalesDropdown(this.parentElement.id)">
+                <span class="ms-btn-title" data-title>All Supplier</span>
+                <span class="ms-btn-count" data-count style="display:none">0</span>
+                <span class="ms-btn-icon">▼</span>
+              </button>
+              <div class="ms-dropdown">
+                <div class="ms-dropdown-head">
+                  <span class="ms-count-text" data-head-count>Semua data</span>
+                  <button type="button" class="ms-clear-btn" onclick="clearSalesFilter(this.closest('.ms-select').id)">✕ Bersihkan</button>
+                </div>
+                <div class="ms-search"><input type="text" placeholder="Cari data..." oninput="filterSalesOptions(this.closest('.ms-select').id, this.value)"></div>
+                <div class="ms-options" data-options></div>
+              </div>
+              <div class="ms-chips" data-chips></div>
             </div>
           </div>
 
-          <div class="filter-field">
-            <label for="statusFilter">All Status</label>
-            <select id="statusFilter" onchange="applyFilters()">
-              <option value="">All Status</option>
-              <option value="PO OUTSTANDING">PO OUTSTANDING</option>
-              <option value="PO EXPIRED">PO EXPIRED</option>
-              <option value="COMPLETE">COMPLETE</option>
-            </select>
+          <div class="sales-filter-field">
+            <label for="dcNameFilter">DC Code</label>
+            <div class="ms-select" id="dcNameFilter" data-all-label="All DC Code" data-dashboard-filter>
+              <button type="button" class="ms-btn" onclick="toggleSalesDropdown(this.parentElement.id)">
+                <span class="ms-btn-title" data-title>All DC Code</span>
+                <span class="ms-btn-count" data-count style="display:none">0</span>
+                <span class="ms-btn-icon">▼</span>
+              </button>
+              <div class="ms-dropdown">
+                <div class="ms-dropdown-head">
+                  <span class="ms-count-text" data-head-count>Semua data</span>
+                  <button type="button" class="ms-clear-btn" onclick="clearSalesFilter(this.closest('.ms-select').id)">✕ Bersihkan</button>
+                </div>
+                <div class="ms-search"><input type="text" placeholder="Cari data..." oninput="filterSalesOptions(this.closest('.ms-select').id, this.value)"></div>
+                <div class="ms-options" data-options></div>
+              </div>
+              <div class="ms-chips" data-chips></div>
+            </div>
           </div>
 
-          <div class="filter-field">
-            <label for="stockConditionFilter">All Kondisi</label>
-            <select id="stockConditionFilter" onchange="applyFilters()">
-              <option value="">All Kondisi</option>
-              <option value="kosong">Barang Kosong</option>
-              <option value="aman">Barang Aman</option>
-            </select>
+          <div class="sales-filter-field">
+            <label for="yearFilter">Tahun</label>
+            <div class="ms-select" id="yearFilter" data-all-label="All Tahun" data-dashboard-filter>
+              <button type="button" class="ms-btn" onclick="toggleSalesDropdown(this.parentElement.id)">
+                <span class="ms-btn-title" data-title>All Tahun</span>
+                <span class="ms-btn-count" data-count style="display:none">0</span>
+                <span class="ms-btn-icon">▼</span>
+              </button>
+              <div class="ms-dropdown">
+                <div class="ms-dropdown-head">
+                  <span class="ms-count-text" data-head-count>Semua data</span>
+                  <button type="button" class="ms-clear-btn" onclick="clearSalesFilter(this.closest('.ms-select').id)">✕ Bersihkan</button>
+                </div>
+                <div class="ms-search"><input type="text" placeholder="Cari data..." oninput="filterSalesOptions(this.closest('.ms-select').id, this.value)"></div>
+                <div class="ms-options" data-options></div>
+              </div>
+              <div class="ms-chips" data-chips></div>
+            </div>
           </div>
 
-          <div class="filter-field">
-            <label>&nbsp;</label>
-            <button class="btn btn-secondary reset-filter-btn" onclick="resetFilters()">Reset Filter</button>
+          <div class="sales-filter-field">
+            <label for="monthFilter">Bulan</label>
+            <div class="ms-select" id="monthFilter" data-all-label="All Bulan" data-dashboard-filter>
+              <button type="button" class="ms-btn" onclick="toggleSalesDropdown(this.parentElement.id)">
+                <span class="ms-btn-title" data-title>All Bulan</span>
+                <span class="ms-btn-count" data-count style="display:none">0</span>
+                <span class="ms-btn-icon">▼</span>
+              </button>
+              <div class="ms-dropdown">
+                <div class="ms-dropdown-head">
+                  <span class="ms-count-text" data-head-count>Semua data</span>
+                  <button type="button" class="ms-clear-btn" onclick="clearSalesFilter(this.closest('.ms-select').id)">✕ Bersihkan</button>
+                </div>
+                <div class="ms-search"><input type="text" placeholder="Cari data..." oninput="filterSalesOptions(this.closest('.ms-select').id, this.value)"></div>
+                <div class="ms-options" data-options></div>
+              </div>
+              <div class="ms-chips" data-chips></div>
+            </div>
           </div>
-        </div>
+
+          <div class="sales-filter-field">
+            <label for="statusFilter">Status</label>
+            <div class="ms-select" id="statusFilter" data-all-label="All Status" data-dashboard-filter>
+              <button type="button" class="ms-btn" onclick="toggleSalesDropdown(this.parentElement.id)">
+                <span class="ms-btn-title" data-title>All Status</span>
+                <span class="ms-btn-count" data-count style="display:none">0</span>
+                <span class="ms-btn-icon">▼</span>
+              </button>
+              <div class="ms-dropdown">
+                <div class="ms-dropdown-head">
+                  <span class="ms-count-text" data-head-count>Semua data</span>
+                  <button type="button" class="ms-clear-btn" onclick="clearSalesFilter(this.closest('.ms-select').id)">✕ Bersihkan</button>
+                </div>
+                <div class="ms-search"><input type="text" placeholder="Cari data..." oninput="filterSalesOptions(this.closest('.ms-select').id, this.value)"></div>
+                <div class="ms-options" data-options></div>
+              </div>
+              <div class="ms-chips" data-chips></div>
+            </div>
+          </div>
+
+          <div class="sales-filter-field">
+            <label for="stockConditionFilter">Kondisi</label>
+            <div class="ms-select" id="stockConditionFilter" data-all-label="All Kondisi" data-dashboard-filter>
+              <button type="button" class="ms-btn" onclick="toggleSalesDropdown(this.parentElement.id)">
+                <span class="ms-btn-title" data-title>All Kondisi</span>
+                <span class="ms-btn-count" data-count style="display:none">0</span>
+                <span class="ms-btn-icon">▼</span>
+              </button>
+              <div class="ms-dropdown">
+                <div class="ms-dropdown-head">
+                  <span class="ms-count-text" data-head-count>Semua data</span>
+                  <button type="button" class="ms-clear-btn" onclick="clearSalesFilter(this.closest('.ms-select').id)">✕ Bersihkan</button>
+                </div>
+                <div class="ms-search"><input type="text" placeholder="Cari data..." oninput="filterSalesOptions(this.closest('.ms-select').id, this.value)"></div>
+                <div class="ms-options" data-options></div>
+              </div>
+              <div class="ms-chips" data-chips></div>
+            </div>
+          </div>
+
+          </div>
       </div>
 
       <div class="supplier-info">
@@ -1646,6 +1734,7 @@
                   <th>PLU</th>
                   <th>PLU DESC</th>
                   <th>DC CODE</th>
+                  <th>DC NAME</th>
                   <th id="emptyStockQtyHeader">QTY STOCK</th>
                   <th>DSI STOCK</th>
                   <th>LAST DELIVERY</th>
@@ -2331,6 +2420,7 @@ console.log(
 
         await openApplication();
         await loadData();
+        loadDashboardFilters();
         renderDashboard();
       } catch (e) {
         console.error("Supabase Auth login gagal:", e);
@@ -2351,13 +2441,7 @@ console.log(
       document.getElementById("adminPanel").style.display =
         currentRole === "admin" ? "block" : "none";
 
-      const supplierFilter = document.getElementById("supplierFilter");
-      supplierFilter.style.display = "";
-
-      loadYearFilter();
-      loadMonthFilter();
-      loadSupplierFilter();
-      loadDCNameFilter();
+      loadDashboardFilters();
       renderDashboard();
     }
 
@@ -2391,13 +2475,13 @@ console.log(
       }
 
       if (excludedFilter !== "supplierFilter" && currentRole === "admin") {
-        const supplier = normalizeSupplierCode(document.getElementById("supplierFilter").value);
-        if (supplier && normalizeSupplierCode(item.SUPPLIER_CODE) !== supplier) return false;
+        const suppliers = getFilterValues("supplierFilter");
+        if (suppliers.length && suppliers.indexOf(normalizeSupplierCode(item.SUPPLIER_CODE)) === -1) return false;
       }
 
       if (excludedFilter !== "dcNameFilter") {
-        const dcCode = normalizeSupplierCode(document.getElementById("dcNameFilter").value);
-        if (dcCode && normalizeSupplierCode(item.DC_CODE) !== dcCode) return false;
+        const dcCodes = getFilterValues("dcNameFilter");
+        if (dcCodes.length && dcCodes.indexOf(normalizeSupplierCode(item.DC_CODE)) === -1) return false;
       }
 
       const date = getServiceLevelDate(item);
@@ -2415,13 +2499,9 @@ console.log(
         const q = normalizeSearchText(document.getElementById("searchInput").value);
         if (q) {
           const haystack = [
-            item.SUPPLIER_CODE,
-            item.SUPPLIER_NAME,
             item.PLU,
             item.PLU_DESC,
-            item.PO_NUMBER,
-            item.KETERANGAN,
-            item.STATUS
+            item.SUPPLIER_NAME
           ].map(normalizeSearchText).join(" ");
 
           if (!haystack.includes(q)) return false;
@@ -2429,15 +2509,15 @@ console.log(
       }
 
       if (excludedFilter !== "statusFilter") {
-        const status = normalizeStatus(document.getElementById("statusFilter").value);
-        if (status && normalizeStatus(getEffectiveStatus(item)) !== status) return false;
+        const statuses = getFilterValues("statusFilter");
+        if (statuses.length && statuses.indexOf(normalizeStatus(getEffectiveStatus(item))) === -1) return false;
       }
 
       if (excludedFilter !== "stockConditionFilter") {
-        const stockCondition = document.getElementById("stockConditionFilter").value;
-        if (stockCondition) {
+        const conditions = getFilterValues("stockConditionFilter");
+        if (conditions.length) {
           const isEmpty = isEmptyStock(item);
-          if (stockCondition !== (isEmpty ? "kosong" : "aman")) return false;
+          if (conditions.indexOf(isEmpty ? "kosong" : "aman") === -1) return false;
         }
       }
 
@@ -2451,67 +2531,12 @@ console.log(
     }
 
     function getFilterValues(id) {
-      const filter = document.getElementById(id);
-      if (filter && filter.tagName === "SELECT") {
-        return filter.value ? [filter.value] : [];
-      }
-
-      return Array.from(document.querySelectorAll("#" + id + " input[type=checkbox]:checked"))
-        .map(function(input) { return input.value; })
-        .filter(Boolean);
-    }
-
-    function updateFilterButton(id) {
-      const filter = document.getElementById(id);
-      const button = filter.querySelector(".multi-filter-button");
-      const count = getFilterValues(id).length;
-      const labels = {
-        supplierFilter: "Supplier",
-        dcNameFilter: "DC Name",
-        yearFilter: "Tahun",
-        monthFilter: "Bulan",
-        statusFilter: "Status",
-        stockConditionFilter: "Kondisi"
-      };
-      button.textContent = labels[id] + (count ? " (" + count + " dipilih)" : "");
-    }
-
-    function toggleFilter(id) {
-      document.querySelectorAll(".multi-filter.open").forEach(function(filter) {
-        if (filter.id !== id) filter.classList.remove("open");
-      });
-      document.getElementById(id).classList.toggle("open");
-    }
-
-    document.addEventListener("click", function(event) {
-      if (!event.target.closest(".multi-filter")) {
-        document.querySelectorAll(".multi-filter.open").forEach(function(filter) {
-          filter.classList.remove("open");
-        });
-      }
-    });
-
-    function setFilterOptions(select, firstOption, options, selectedValues) {
-      const optionsContainer = select.querySelector(".multi-filter-options");
-      const values = new Set(selectedValues || []);
-      optionsContainer.innerHTML = options.map(function(option) {
-        const checked = values.has(option.value) ? " checked" : "";
-        const allOption = option.all ? " data-all-option=\"true\"" : "";
-        return '<label class="multi-filter-option"><input type="checkbox" value="' +
-          safe(option.value) + '"' + checked + allOption + ' onchange="handleMonthCheckboxSelection(this)">' +
-          safe(option.label) + '</label>';
-      }).join("");
-      if (!selectedValues.length && options.some(function(option) { return option.all; })) {
-        const allInput = optionsContainer.querySelector("input[data-all-option]");
-        if (allInput) allInput.checked = true;
-      }
-      updateFilterButton(select.id);
+      return getSelectedValuesForSelect(id);
     }
 
     function loadYearFilter() {
-      const sel = document.getElementById("yearFilter");
-      const selectedYear = getFilterValues("yearFilter");
       const years = new Set();
+      const selectedYears = getFilterValues("yearFilter");
 
       getRowsForFilter("yearFilter").forEach(function(item) {
         const date = getServiceLevelDate(item);
@@ -2524,20 +2549,21 @@ console.log(
           return { value: year, label: year };
         });
 
-      sel.innerHTML = '<option value="">All Tahun</option>' + options.map(function(option) {
-        return '<option value="' + safe(option.value) + '">' + safe(option.label) + '</option>';
-      }).join("");
-      sel.value = selectedYear[0] && years.has(selectedYear[0]) ? selectedYear[0] : "";
+      const validSelected = selectedYears.filter(function(year) { return years.has(year); });
+      loadSalesSelect("yearFilter",
+        options.map(function(option) { return option.value; }),
+        validSelected,
+        "All Tahun",
+        optionsToLabelMap(options));
     }
 
     function loadMonthFilter() {
-      const sel = document.getElementById("monthFilter");
-      const selectedMonth = getFilterValues("monthFilter");
       const monthNames = [
         "Januari", "Februari", "Maret", "April", "Mei", "Juni",
         "Juli", "Agustus", "September", "Oktober", "November", "Desember"
       ];
       const months = new Set();
+      const selectedMonths = getFilterValues("monthFilter");
 
       getRowsForFilter("monthFilter").forEach(function(item) {
         const date = getServiceLevelDate(item);
@@ -2549,38 +2575,28 @@ console.log(
         .map(function(month) {
           return { value: String(month), label: monthNames[month - 1] };
         });
-      options.unshift({ value: "", label: "All Bulan", all: true });
 
-      setFilterOptions(sel, "Bulan", options, selectedMonth);
-    }
-
-    function handleMonthCheckboxSelection(input) {
-      const allInput = document.querySelector("#monthFilter input[data-all-option]");
-      const monthInputs = document.querySelectorAll("#monthFilter input[type=checkbox]:not([data-all-option])");
-
-      if (input.dataset.allOption === "true") {
-        if (input.checked) {
-          monthInputs.forEach(function(monthInput) { monthInput.checked = false; });
-        }
-      } else if (input.checked) {
-        if (allInput) allInput.checked = false;
-      } else if (!Array.from(monthInputs).some(function(monthInput) { return monthInput.checked; })) {
-        if (allInput) allInput.checked = true;
-      }
-
-      applyFilters();
+      const validSelected = selectedMonths.filter(function(month) { return months.has(Number(month)); });
+      loadSalesSelect("monthFilter",
+        options.map(function(option) { return option.value; }),
+        validSelected,
+        "All Bulan",
+        optionsToLabelMap(options));
     }
 
     function loadSupplierFilter() {
       const sel = document.getElementById("supplierFilter");
-      const selectedSupplier = sel.value;
+      const wrap = sel ? sel.closest(".sales-filter-field") : null;
 
       if (currentRole === "supplier") {
-        sel.style.display = "none";
-        sel.disabled = true;
-        sel.innerHTML = '<option value="">All Supplier</option>';
+        if (sel) sel.disabled = true;
+        if (wrap) wrap.style.display = "none";
+        loadSalesSelect("supplierFilter", [], [], "All Supplier");
         return;
       }
+
+      if (sel) sel.disabled = false;
+      if (wrap) wrap.style.display = "";
 
       const map = new Map();
 
@@ -2588,36 +2604,28 @@ console.log(
         const code = normalizeSupplierCode(item.SUPPLIER_CODE);
         const name = String(item.SUPPLIER_NAME || "").trim();
 
-        if (code) map.set(code, name);
+        if (code && !map.has(code)) map.set(code, name);
       });
 
-      sel.innerHTML = '<option value="">All Supplier</option>';
-      Array.from(map.entries())
+      const options = Array.from(map.keys())
+        .map(function(code) {
+          const name = map.get(code);
+          return { value: code, label: name ? name + " - " + code : code };
+        })
         .sort(function(a, b) {
-          return a[1].localeCompare(b[1], "id", {
+          return a.label.localeCompare(b.label, "id", {
             sensitivity: "base"
           });
-        })
-        .forEach(function([code, name]) {
-          const option = document.createElement("option");
-          option.value = code;
-          option.textContent = name + " - " + code;
-          sel.appendChild(option);
         });
 
-      sel.style.display = "";
-      sel.disabled = false;
-      sel.value = Array.from(sel.options).some(function(option) {
-        return option.value === selectedSupplier;
-      }) ? selectedSupplier : "";
+      loadSalesSelect("supplierFilter",
+        options.map(function(option) { return option.value; }),
+        getFilterValues("supplierFilter"),
+        "All Supplier",
+        optionsToLabelMap(options));
     }
 
     function loadDCNameFilter() {
-      const sel = document.getElementById("dcNameFilter");
-      const selectedSupplier = currentRole === "supplier"
-        ? normalizeSupplierCode(currentUser)
-        : normalizeSupplierCode(document.getElementById("supplierFilter").value);
-      const selectedDC = sel.value;
       const dcMap = new Map();
 
       getRowsForFilter("dcNameFilter").forEach(function(item) {
@@ -2627,21 +2635,86 @@ console.log(
         if (code && !dcMap.has(code)) dcMap.set(code, name);
       });
 
-      sel.innerHTML = '<option value="">All DC Code</option>';
-      Array.from(dcMap.entries())
-        .sort(function(a, b) {
-          return a[0].localeCompare(b[0], "id", { sensitivity: "base" });
+      const options = Array.from(dcMap.keys())
+        .map(function(code) {
+          const name = dcMap.get(code);
+          return { value: code, label: name ? name + " - " + code : code };
         })
-        .forEach(function([code, name]) {
-          const option = document.createElement("option");
-          option.value = code;
-          option.textContent = name ? name + " - " + code : code;
-          sel.appendChild(option);
+        .sort(function(a, b) {
+          return a.label.localeCompare(b.label, "id", { sensitivity: "base" });
         });
 
-      sel.value = Array.from(sel.options).some(function(option) {
-        return option.value === selectedDC;
-      }) ? selectedDC : "";
+      loadSalesSelect("dcNameFilter",
+        options.map(function(option) { return option.value; }),
+        getFilterValues("dcNameFilter"),
+        "All DC Code",
+        optionsToLabelMap(options));
+    }
+
+    function loadStatusFilter() {
+      const statuses = new Set();
+
+      getRowsForFilter("statusFilter").forEach(function(item) {
+        statuses.add(getEffectiveStatus(item));
+      });
+
+      const options = ["PO OUTSTANDING", "PO EXPIRED", "COMPLETE"]
+        .filter(function(status) { return statuses.has(status); })
+        .map(function(status) { return { value: status, label: status }; });
+
+      loadSalesSelect("statusFilter",
+        options.map(function(option) { return option.value; }),
+        getFilterValues("statusFilter"),
+        "All Status",
+        optionsToLabelMap(options));
+    }
+
+    function loadStockConditionFilter() {
+      const rows = getRowsForFilter("stockConditionFilter");
+      const options = [];
+
+      if (rows.some(isEmptyStock)) {
+        options.push({ value: "kosong", label: "Barang Kosong" });
+      }
+      if (rows.some(function(item) { return !isEmptyStock(item); })) {
+        options.push({ value: "aman", label: "Barang Aman" });
+      }
+
+      loadSalesSelect("stockConditionFilter",
+        options.map(function(option) { return option.value; }),
+        getFilterValues("stockConditionFilter"),
+        "All Kondisi",
+        optionsToLabelMap(options));
+    }
+
+    function loadDashboardFilters() {
+      loadSupplierFilter();
+      loadDCNameFilter();
+      loadYearFilter();
+      loadMonthFilter();
+      loadStatusFilter();
+      loadStockConditionFilter();
+    }
+
+    function optionsToLabelMap(options) {
+      const map = {};
+      options.forEach(function(option) { map[option.value] = option.label; });
+      return map;
+    }
+
+    function onDashboardFilterChange(id) {
+      refreshSalesFilterUI(id);
+      applyFilters();
+    }
+
+    function handleMsSelectChange(id) {
+      const container = document.getElementById(id);
+      if (!container) return;
+      if (container.hasAttribute("data-dashboard-filter")) {
+        onDashboardFilterChange(id);
+      } else {
+        onSalesFilterChange(id);
+      }
     }
 
     function getFilteredData() {
@@ -2653,10 +2726,7 @@ console.log(
       const fields = [
         ["PLU", "PLU"],
         ["PLU_DESC", "Nama Barang"],
-        ["PO_NUMBER", "PO Number"],
-        ["SUPPLIER_CODE", "Supplier"],
-        ["SUPPLIER_NAME", "Supplier"],
-        ["KETERANGAN", "Keterangan"]
+        ["SUPPLIER_NAME", "Supplier"]
       ];
 
       rows.forEach(function(row) {
@@ -2736,10 +2806,7 @@ console.log(
       if (filterFrame) cancelAnimationFrame(filterFrame);
       filterFrame = requestAnimationFrame(function() {
         filterFrame = null;
-        loadYearFilter();
-        loadMonthFilter();
-        loadSupplierFilter();
-        loadDCNameFilter();
+        loadDashboardFilters();
         renderDashboard();
       });
     }
@@ -2749,19 +2816,20 @@ console.log(
       document.getElementById("emptyItemsSupplierFilter").value = "";
       document.getElementById("emptyItemsDCFilter").value = "";
       document.getElementById("emptyItemsSearch").value = "";
-      document.getElementById("supplierFilter").value = "";
-      document.getElementById("dcNameFilter").value = "";
-      document.getElementById("statusFilter").value = "";
-      document.getElementById("stockConditionFilter").value = "";
+
       ["supplierFilter", "dcNameFilter", "yearFilter", "monthFilter", "statusFilter", "stockConditionFilter"]
         .forEach(function(id) {
-          if (id === "yearFilter") {
-            document.getElementById(id).value = "";
-          } else if (id === "monthFilter") {
-            document.querySelectorAll("#" + id + " input[type=checkbox]").forEach(function(input) {
+          const el = document.getElementById(id);
+          if (!el) return;
+          if (el.classList.contains("ms-select")) {
+            el.querySelectorAll(".ms-option input[type=checkbox]").forEach(function(input) {
               input.checked = false;
             });
-            updateFilterButton(id);
+            const search = el.querySelector(".ms-search input");
+            if (search) search.value = "";
+            refreshSalesFilterUI(id);
+          } else {
+            el.value = "";
           }
         });
       applyFilters();
@@ -2887,7 +2955,7 @@ console.log(
       return [];
     }
 
-    function loadSalesSelect(id, values, selectedValues, allLabel) {
+    function loadSalesSelect(id, values, selectedValues, allLabel, labelMap) {
       const container = document.getElementById(id);
       if (!container) return;
       const optionsBox = container.querySelector("[data-options]");
@@ -2907,9 +2975,10 @@ console.log(
       } else {
         optionsBox.innerHTML = uniqueValues.map(function(value) {
           const checked = selectedSet.has(value) ? " checked" : "";
+          const display = labelMap && labelMap[value] != null ? labelMap[value] : value;
           return '<label class="ms-option"><input type="checkbox" value="' + safe(value) + '"' + checked +
-            ' onchange="onSalesFilterChange(this.closest(\'.ms-select\').id)">' +
-            '<span class="ms-option-label" title="' + safe(value) + '">' + safe(value) + '</span></label>';
+            ' onchange="handleMsSelectChange(this.closest(\'.ms-select\').id)">' +
+            '<span class="ms-option-label" title="' + safe(display) + '">' + safe(display) + '</span></label>';
         }).join("");
       }
 
@@ -2949,12 +3018,25 @@ console.log(
       if (chipsBox) {
         const visible = selected.slice(0, 8);
         let chipsHtml = visible.map(function(value) {
-          return '<span class="ms-chip" data-value="' + safe(value) + '"><span>' + safe(value) + '</span><button type="button" aria-label="Hapus filter">×</button></span>';
+          const display = getMsOptionLabel(container, value);
+          return '<span class="ms-chip" data-value="' + safe(value) + '"><span>' + safe(display) + '</span><button type="button" aria-label="Hapus filter">×</button></span>';
         }).join("");
         const extra = selected.length - visible.length;
         if (extra > 0) chipsHtml += '<span class="ms-chip-more">+' + extra + ' lagi</span>';
         chipsBox.innerHTML = chipsHtml;
       }
+    }
+
+    function getMsOptionLabel(container, value) {
+      let label = value;
+      container.querySelectorAll(".ms-option").forEach(function(option) {
+        const input = option.querySelector("input[type=checkbox]");
+        if (input && input.value === value) {
+          const labelEl = option.querySelector(".ms-option-label");
+          if (labelEl) label = labelEl.textContent;
+        }
+      });
+      return label;
     }
 
     function onSalesFilterChange(id) {
@@ -2978,11 +3060,11 @@ console.log(
       container.querySelectorAll(".ms-option input[type=checkbox]").forEach(function(input) {
         input.checked = false;
       });
-      onSalesFilterChange(id);
+      handleMsSelectChange(id);
     }
 
     function resetSalesFilters() {
-      document.querySelectorAll(".ms-select").forEach(function(container) {
+      document.querySelectorAll("#salesTab .ms-select").forEach(function(container) {
         container.querySelectorAll(".ms-option input[type=checkbox]").forEach(function(input) {
           input.checked = false;
         });
@@ -3008,7 +3090,7 @@ console.log(
       container.querySelectorAll(".ms-option input[type=checkbox]").forEach(function(input) {
         if (input.value === value) input.checked = false;
       });
-      onSalesFilterChange(id);
+      handleMsSelectChange(id);
     }
 
     document.addEventListener("click", function(event) {
@@ -3777,6 +3859,7 @@ console.log(
           "<td>" + safe(row.plu) + "</td>" +
           "<td>" + safe(row.description || "-") + "</td>" +
           "<td>" + safe(row.dcCode || "-") + "</td>" +
+          "<td>" + safe(row.dcName || "-") + "</td>" +
           (currentRole === "admin" ? "<td>" + formatNumber(row.stockQty) + "</td>" : "") +
           "<td>" + formatNumber(row.dsiStock) + "</td>" +
           "<td>" + safe(row.lastDelivery ? formatDate(row.lastDelivery) : "Belum pernah") + "</td>" +
@@ -4137,6 +4220,11 @@ console.log(
       let monthly = getMonthlyServiceLevel(rows);
       let weekly = getWeeklyServiceLevel(rows);
 
+      // Hilangkan periode yang Service Level-nya 0% (mis. bulan tanpa data,
+      // seperti September yang belum ada PO/BTB) agar garis tidak turun ke 0.
+      monthly = monthly.filter(function(x) { return x.value > 0; });
+      weekly = weekly.filter(function(x) { return x.value > 0; });
+
       if (!monthly.length) {
         monthly = [{ label: "Tidak ada data", po: 0, btb: 0, value: 0 }];
       }
@@ -4195,7 +4283,9 @@ console.log(
             offset: 5,
             color: "#1e3a8a",
             font: { size: 10, weight: "bold" },
-            formatter: function(value) {
+            formatter: function(value, context) {
+              const source = context.chart.canvas.id === "monthlySLChart" ? monthly[context.dataIndex] : weekly[context.dataIndex];
+              if (!source || source.value <= 0) return "";
               return value.toFixed(2) + "%";
             }
           }
@@ -4562,10 +4652,7 @@ console.log(
         localStorage.setItem("supplierLastUpdate", now);
         updateInfo();
 
-        loadYearFilter();
-        loadMonthFilter();
-        loadSupplierFilter();
-        loadDCNameFilter();
+        loadDashboardFilters();
         renderDashboard();
 
         showProgress(100, "Upload selesai.");
@@ -5100,10 +5187,7 @@ console.log(
         lastUpdate = new Date().toISOString();
         localStorage.setItem("supplierLastUpdate", lastUpdate);
 
-        loadYearFilter();
-        loadMonthFilter();
-        loadSupplierFilter();
-        loadDCNameFilter();
+        loadDashboardFilters();
         renderDashboard();
 
         showToast("Restore berhasil: " + data.length.toLocaleString("id-ID") + " data.");
@@ -5128,8 +5212,7 @@ console.log(
         lastUpdate = null;
         localStorage.removeItem("supplierLastUpdate");
 
-        loadSupplierFilter();
-        loadDCNameFilter();
+        loadDashboardFilters();
         renderDashboard();
 
         showToast("Semua data berhasil dihapus.");
@@ -5185,6 +5268,7 @@ console.log(
           await resolveAuthAccount(sessionData.session.user);
           await openApplication();
           await loadData();
+          loadDashboardFilters();
           renderDashboard();
           console.log("Session Supabase aktif. Total data:", data.length);
         } else {
